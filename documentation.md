@@ -20,7 +20,7 @@ In this example we obtain a high percentage of success. Around 97%! That's huge 
 
 | Date | Instances | Success |
 |:----------------------------------|:---:|:----:|
-| Correctly Classified Instances     | 194 | 97% |
+| Correctly Classified Instances     | 194 | 97% |
 | Incorrectly Classified Instances   |  6  |  3% |
 
 So our system train and test with same data... So, obviously it will obtain a good score because they are almost the same (so our system was modeled according to this data).
@@ -33,7 +33,7 @@ In this method we train and test with same data but dividing our data in differe
 
 | Date | Instances | Success |
 |:----------------------------------|:---:|:----:|
-| Correctly Classified Instances     | 185 | 92.5 % |
+| Correctly Classified Instances     | 185 | 92.5 % |
 | Incorrectly Classified Instances   |  15  |  7.5% |
 
 
@@ -47,7 +47,7 @@ Despite this mark is lower than the previous ones, is a very good result (taking
 
 | Date | Instances | Success |
 |:----------------------------------|:---:|:----:|
-| Correctly Classified Instances     | 362 | 90.5 % |
+| Correctly Classified Instances     | 362 | 90.5 % |
 | Incorrectly Classified Instances   |  38  |  9.5% |
 
 
@@ -67,7 +67,7 @@ So the model it's creating is really bad. That's because it constructs a frequen
 
 | Date | Instances | Success |
 |:----------------------------------|:---:|:----:|
-| Correctly Classified Instances     | 91 | 45.5% |
+| Correctly Classified Instances     | 91 | 45.5% |
 | Incorrectly Classified Instances   |  109  |  54.4% |
 
 
@@ -79,7 +79,7 @@ Also cross validation performs really bad. That's because the data is still the 
 
 | Date | Instances | Success |
 |:----------------------------------|:---:|:----:|
-| Correctly Classified Instances     | 91 | 45.5% |
+| Correctly Classified Instances     | 91 | 45.5% |
 | Incorrectly Classified Instances   |  109  |  54.4% |
 
 
@@ -92,17 +92,91 @@ So in the supploed test set things get worse! And the accuracy now is lower than
 
 | Date | Instances | Success |
 |:----------------------------------|:---:|:----:|
-| Correctly Classified Instances     | 170 | 42.5% |
+| Correctly Classified Instances     | 170 | 42.5% |
 | Incorrectly Classified Instances   |  230  |  57.5% |
 
 
-Ejercicio 2
+Ejercicio 2: Hierarchical clustering
 ======================
 
-**Enunciado**
-Aplica clustering jerárquico sobre el mismo conjunto de datos y analiza los resultados obtenidos.
+### Training set
+In this first experiment we are splitting using the file drug1n both to train and test the results so this experiment is quite prone to overfit.
+We can see that by asking Weka to split it into 5 clusters we get 3 of the 5 clusters that contain most of the examples and the rest that are almost empty. Those 3 dominant clusters are the first the third and the fifth, that contain all 3 together a total of 91% of the examples.
+So as we can see two of the drugs are not very needed and only a very reduced group of people uses them.
+
+| Cluster number| Instances | Success |
+|:----------------------------------|:---:|:----:|
+| 0     | 91 | 46% |
+| 1   |  9  |  5% |
+| 2     | 54 | 27% |
+| 3     | 7 | 4% |
+| 4     | 39 | 20% |
 
 
+### Supplied test set
+This second experiment is made by using drug1n as training set and then applying that cluster model to the drug2n dataset as test set, so this experiment is much less prone to overfit than the previous one both because it doesn’t use the same dataset both for train and test and because it has a bigger test set.
+But the percentages obtained when splitting the drug2n in 5 clusters is quite similar to the previous one because the first, third and fifth cluster contain together a total of 88% of the examples. This shows once more that those are the most common drugs to treat the pacients in most of the cases.
+
+| Cluster number| Instances | Success |
+|:----------------------------------|:---:|:----:|
+| 0     | 170 | 43% |
+| 1   |  22  |  6% |
+| 2     | 117 | 29% |
+| 3     | 25 | 6% |
+| 4     | 66 | 17% |
+
+###Percentage split
+This third experiment is made by using 66% of the examples in the file drug1n as training set and the other 33% percent of the examples as test set. This method is quite usefull when we don’t have 2 different files to train and test which is quite common because is a way to simulate it.
+In this example we can see that the first cluster contains more than half of the examples in the test set (57%) and the second one a 29% so we can see that most of the examples in the test set could be classified in those two clusters, the last 3 clusters contain respectively 7%, 5% and 1% of the examples so we can tell that does 3 drugs are not very used in the examples in this test set.
+At the same time we can see that the percentages are very different to the previous 2 experiments so we can think that this may be caused because the test set is way too small, just 68 examples and this may cause that we dont have the same distribution as in the 2 previous ones. 
+
+| Cluster number| Instances | Success |
+|:----------------------------------|:---:|:----:|
+| 0     | 39 | 57% |
+| 1   |  20  |  29% |
+| 2     | 5 | 7% |
+| 3     | 3 | 4% |
+| 4     | 1 | 1% |
+
+
+Ejercicio 3: J48
+======================
+### Training set
+This example suffer from overfitting as we are using the same dataset for train and test and we can see it because we are getting a 100% correct classification and has 1,0 both precission and recall  which is really strange and usually tells us that our model is overfitting.
+
+| Date | Instances | Success |
+|:----------------------------------|:---:|:----:|
+| Correctly Classified Instances     | 200 | 100% |
+| Incorrectly Classified Instances   |  0  |  0% |
+
+### Cross-validation
+This new example using the fold 10 over the training set shows seems also to be overfitting as the previous one because from the 200 examples it classifies correctly 198 of them which means 99% and as can be seen in the table it also has a 0,99 both for precision and recall which means that the classifier is classifying almost perfectly all the examples.
+The precision means of all the example classified in a class how many of them do really belong to that class.
+The recall measures of all the example that belongs to a class how many of them are correctly classified as belonging to it.
+
+| Date | Instances | Success |
+|:----------------------------------|:---:|:----:|
+| Correctly Classified Instances     | 198 | 99% |
+| Incorrectly Classified Instances   |  2  |  1% |
+
+Ejercicio 3: ZeroR
+======================
+### Training set
+We can observe in this case that the ZeroR algorithm works quite badly when using the same data set both for training and testing, it only classifies a 45.5% of the examples correctly. The bad rate of classification is also shown on the precision and recall parameters.
+We get a 0.207 and 0.455 which means that most of the examples are badly classified in the class that it’s not their class.
+
+| Date | Instances | Success |
+|:----------------------------------|:---:|:----:|
+| Correctly Classified Instances     | 91 | 45.5% |
+| Incorrectly Classified Instances   |  109  |  54.5% |
+
+### Cross-validation
+The result in this case is just about the same as in the previous one.
+
+| Date | Instances | Success |
+|:----------------------------------|:---:|:----:|
+| Correctly Classified Instances     | 91 | 45.5% |
+| Incorrectly Classified Instances   |  109  |  54.5% |
 
 
 ------------------
